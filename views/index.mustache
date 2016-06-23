@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head> 
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="copyright" content="FT中文网">
+  <meta name="robots" content="index,follow">
+  <meta name="author" content="FTC Interactive Graphics"> 
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+{{# article}}
+  {{> partials/meta}}
+{{/ article}}
+
+  <!-- smoosh-->
+  <link rel="stylesheet" type="text/css" href="styles/main.css">
+  <!-- endsmoosh -->
+{{# analytics}}
+  {{> partials/analytics}}
+{{/ analytics}}
+<script type="text/javascript">
+function getViewportSize(w) {
+    w = w || window;
+    if (w.innerWidth != null) { //For browsers except IE8-
+        return {
+            w: w.innerWidth,
+            h: w.innerHeight
+        };
+    }
+    var d = w.document; // IE in standard mode
+    if (document.compatMode == 'CSS1Compat') {
+        return {
+            w: d.documentElement.clientWidth,
+            h: d.documentElement.clientHeight
+        };
+    }
+    return { // browsers in quirks mode
+        w: d.body.clientWidth,
+        h: d.body.clientHeight
+    };
+}
+var viewport = getViewportSize();
+</script>
+</head>
+
+<body>
+{{# article}}
+  {{> header}}
+{{/ article}}
+
+{{# article}}
+  {{> article/main}}
+{{/ article}}
+
+{{# footer}}
+  {{> footer}}
+{{/ footer}}
+
+<script type="text/javascript">
+  console.log(viewport);
+</script>
+<!-- smoosh -->
+<script src="scripts/bundle.js"></script>
+<!-- endsmoosh -->
+
+<!-- build:log -->
+<script src=""></script>
+<!-- endbuild -->
+</body>
+
+
+</html>
