@@ -1,6 +1,5 @@
-const div = document.getElementById('touch-area');
+const trigger = document.getElementById('swipe-trigger');
 const target = document.getElementById('swipe-target');
-const loop = document.getElementById('loop');
 
 function swipeDetect(el, callback, options) {
 	var swipeDir;
@@ -14,6 +13,7 @@ function swipeDetect(el, callback, options) {
 	var minDist = 0;
 	var maxDeviation = 100;
 	var maxTimeAllowed = 300;
+	var preventDefault = true;
 
 	if (options) {
 		minDist = options.minDist ? options.minDist : minDist;
@@ -21,6 +21,7 @@ function swipeDetect(el, callback, options) {
 		maxDeviation = options.maxDeviation ? options.maxDeviation : maxDeviation;
 
 		maxTimeAllowed = options.maxTimeAllowed ? options.maxTimeAllowed : maxTimeAllowed;
+		preventDefault = options.preventDefault ? options.preventDefault : preventDefault;
 	}
 
 	el.addEventListener('touchstart', function(e) {
@@ -31,11 +32,15 @@ function swipeDetect(el, callback, options) {
 		startX = touch.pageX;
 		startY = touch.pageY;
 		startTime = new Date().getTime();
-		e.preventDefault();
+		if (preventDefault) {
+			e.preventDefault();
+		}
 	}, false);
 
 	el.addEventListener('touchmove', function(e) {
-		e.preventDefault();
+		if (preventDefault) {
+			e.preventDefault();
+		}
 	}, false);
 
 	el.addEventListener('touchend', function(e) {
@@ -55,15 +60,17 @@ function swipeDetect(el, callback, options) {
 			}
 		}
 		callback(swipeDir);
-		e.preventDefault();
+		if (preventDefault) {
+			e.preventDefault();
+		}
 	});
 }
 
-swipeDetect(div, function(dir) {
+swipeDetect(trigger, function(dir) {
 	if (dir === 'right') {
 		console.log('swiping to right');
 		target.setAttribute('aria-expanded', 'true');
-		div.setAttribute('aria-expanded', 'false');
+		trigger.setAttribute('aria-expanded', 'false');
 	}
 }, {
 	maxTimeAllowed: 1000
@@ -73,8 +80,9 @@ swipeDetect(target, function(dir) {
 	if (dir === 'left') {
 		console.log('swiping to left');
 		target.setAttribute('aria-expanded', 'false');
-		div.setAttribute('aria-expanded', 'true');	
+		trigger.setAttribute('aria-expanded', 'true');	
 	}
 }, {
-	maxTimeAllowed: 1000
+	maxTimeAllowed: 1000,
+	preventDefault: false
 });
