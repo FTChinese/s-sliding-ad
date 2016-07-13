@@ -17,23 +17,6 @@ const config = require('./config.json');
 
 const projectName = path.basename(__dirname);
 
-gulp.task(function mustache() {
-  const DEST = '.tmp';
-  
-  gulp.src('views/*.mustache')
-    .pipe($.mustache({
-      "assetsPath": "/bower_components/ftc-icons/"
-    }, {
-      extension: '.html'
-    }))
-    .pipe($.size({
-      gzip: true,
-      showFiles: true
-    }))
-    .pipe(gulp.dest(DEST))
-    .pipe(browserSync.stream({once: true}));
-});
-
 gulp.task('styles', function styles() {
   const DEST = '.tmp/styles';
 
@@ -59,7 +42,7 @@ gulp.task('styles', function styles() {
     }))
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest(DEST))
-    .pipe(browserSync.stream());
+    .pipe(browserSync.stream({once:true}));
 });
 
 gulp.task('scripts', function() {
@@ -105,9 +88,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('serve', 
-  gulp.parallel(
-    'mustache', 'styles', 'scripts', 
-
+  gulp.parallel('styles', 'scripts', 
     function serve() {
     browserSync.init({
       server: {
@@ -119,22 +100,24 @@ gulp.task('serve',
     });
 
     gulp.watch('client/**/*.{csv,svg,png,jpg,gif}', browserSync.reload);
+    gulp.watch('client/*.html', browserSync.reload);
     gulp.watch('client/**/*.scss', gulp.parallel('styles'));
-    gulp.watch('views/*.mustache', gulp.parallel('mustache'));
   })
 );
 
 /* demo */
-gulp.task('demo', gulp.series(/*'clean', 'mustache', 'styles', 'js',*/ function() {
-  return gulp.src(['.tmp/**/*', 'client/**/*.{png,jpg,gif,mp4}'])
+gulp.task('demo',  function() {
+  return gulp.src(['.tmp/**/*', 'client/**/*.{png,jpg,gif,mp4}', 'client/*.html'])
     .pipe(gulp.dest(config.test + projectName));
-}));
+});
 
 /* build */
 gulp.task('html', function() {
   return gulp.src('.tmp/*.html')
     .pipe($.htmlReplace(config.static))
-    .pipe($.smoosher())
+    .pipe($.smoosher({
+      base: '.tmp'
+    }))
     .pipe(gulp.dest('dist'));
 });
 
@@ -179,7 +162,7 @@ gulp.task('prod', function() {
     });
 });
 
-gulp.task('build', gulp.series('prod', 'clean', gulp.parallel('mustache', 'styles', 'scripts', 'images', 'extras'), 'html', 'dev'));
+gulp.task('build', gulp.series('prod', 'clean', gulp.parallel('styles', 'scripts', 'images', 'extras'), 'html', 'dev'));
 
 
 /**********deploy***********/
