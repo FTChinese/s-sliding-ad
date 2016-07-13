@@ -20,8 +20,37 @@
 
 <body>
 
-<iframe src="sliding.html"></iframe>
+<div data-o-component="o-swiper">
 
+  <div id="swipe-trigger" data-o-swipe-trigger aria-controls="swipe-target">
+    <img src="images/land-rover.gif">
+  </div>
+
+  <div id="swipe-target" data-o-swipe-target>
+    <div class="s-header">
+      <a href="http://www.landrover.com.cn"><img src="images/page2_top.jpg"></a>
+    </div>
+
+    <div class="s-body">
+      <ul>
+        <li>视频</li>
+      </ul>
+      <video class="s-media__video" src="media/video.mp4" controls poster="images/poster.png">Sorry, you browser does not support HTML5 video tag. Please switch to modern browsers.</video>
+    </div>
+    
+    <div class="s-footer">
+      <img src="images/page2_bottom.jpg">
+    </div>
+  </div>  
+</div>
+
+<h2>Structure for Ad on FTC</h2>
+<p>Try to manipulate iframe's parent</p>
+<div class="banner-placeholder standard">
+  <div class="banner-container">
+    <iframe class="banner-iframe" id="phonebanner0" width="100%" height="50" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="test.html"></iframe>
+  </div>
+</div>
 
 <!-- smoosh -->
 <script src="scripts/bundle.js"></script>

@@ -115,63 +115,63 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('.tmp/scripts'))
 });
 
-// gulp.task('scripts', function() {
-//   const b = browserify({
-//     entries: 'client/js/main.js',
-//     debug: true,
-//     cache: {},
-//     packageCache: {},
-//     transform: [debowerify, babelify],
-//     plugin: [watchify]
-//   });
+gulp.task('scripts', function() {
+  const b = browserify({
+    entries: 'client/js/main.js',
+    debug: true,
+    cache: {},
+    packageCache: {},
+    transform: [debowerify, babelify],
+    plugin: [watchify]
+  });
 
-//   b.on('update', bundle);
-//   b.on('log', $.util.log);
+  b.on('update', bundle);
+  b.on('log', $.util.log);
 
-//   bundle();
+  bundle();
 
-//   function bundle(ids) {
-//     $.util.log('Compiling JS...');
-//     if (ids) {
-//       console.log('Chnaged Files:\n' + ids);
-//     }   
-//     return b.bundle()
-//       .on('error', function(err) {
-//         $.util.log(err.message);
-//         browserSync.notify('Browerify Error!')
-//         this.emit('end')
-//       })
-//       .pipe(source('bundle.js'))
-//       .pipe(buffer())
-//       .pipe($.sourcemaps.init({loadMaps: true}))
-//       .pipe($.sourcemaps.write('./'))
-//       .pipe(gulp.dest('.tmp/scripts'))
-//       .pipe(browserSync.stream({once:true}));
-//   }
-// });
+  function bundle(ids) {
+    $.util.log('Compiling JS...');
+    if (ids) {
+      console.log('Chnaged Files:\n' + ids);
+    }   
+    return b.bundle()
+      .on('error', function(err) {
+        $.util.log(err.message);
+        browserSync.notify('Browerify Error!')
+        this.emit('end')
+      })
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe($.sourcemaps.init({loadMaps: true}))
+      .pipe($.sourcemaps.write('./'))
+      .pipe(gulp.dest('.tmp/scripts'))
+      .pipe(browserSync.stream({once:true}));
+  }
+});
 
-// gulp.task('js', function() {
-//   const DEST = '.tmp/scripts/';
+gulp.task('js', function() {
+  const DEST = '.tmp/scripts/';
 
-//   const b = browserify({
-//     entries: 'client/js/main.js',
-//     debug: true,
-//     cache: {},
-//     packageCache: {},
-//     transform: [babelify, debowerify]
-//   });
+  const b = browserify({
+    entries: 'client/js/main.js',
+    debug: true,
+    cache: {},
+    packageCache: {},
+    transform: [babelify, debowerify]
+  });
 
-//   return b.bundle()
-//     .on('error', function(err) {
-//       $.util.log(err.message);
-//       this.emit('end')
-//     })
-//     .pipe(source('bundle.js'))
-//     .pipe(buffer())
-//     .pipe($.sourcemaps.init({loadMaps: true}))
-//     .pipe($.sourcemaps.write('./'))
-//     .pipe(gulp.dest(DEST));
-// });
+  return b.bundle()
+    .on('error', function(err) {
+      $.util.log(err.message);
+      this.emit('end')
+    })
+    .pipe(source('bundle.js'))
+    .pipe(buffer())
+    .pipe($.sourcemaps.init({loadMaps: true}))
+    .pipe($.sourcemaps.write('./'))
+    .pipe(gulp.dest(DEST));
+});
 
 gulp.task('serve', 
   gulp.parallel(
@@ -278,10 +278,7 @@ gulp.task('deploy:html', function() {
       minifyJS: true,
       minifyCSS: true
     }))
-    .pipe($.sizereport({
-      gzip: true
-    }))
-    .pipe(gulp.dest(config.deploy.index));
+    .pipe(gulp.dest(config.test));
 });
 
 gulp.task('deploy', gulp.series('build', 'deploy:html'));
